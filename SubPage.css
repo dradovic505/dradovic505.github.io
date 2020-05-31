@@ -1,0 +1,279 @@
+/*
+  COLORS
+   #e7e7e7  #f04b4c   #bfbfbf   #285da8   #d4e3f7   #3d6098   #e6ffff
+   arrow in unicode: content: '\2192';
+*/
+
+body{
+  background-color: #e7e7e7;
+  font-size: 20px;
+}
+
+#navbar{
+  margin: -15px 20px -40px -30px;
+  padding-right: 20px;
+  background-color: #333333;
+  width: 100%;
+  position: fixed;
+  display: inline-block;
+  z-index: 1000;
+}
+
+#navbar ul li{
+  padding-left: 10px;
+  display: inline;
+}
+
+#title-name{
+  font-size: 40px;
+}
+
+ul{
+  color: white;
+  list-style: none;
+}
+
+.all-items{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  display: block;
+  padding-left: 20px;
+}
+
+h3{
+  font-family: Adelle;
+  padding: 5px 15px;
+  margin-top: 90px;
+  margin-bottom: 40px;
+  display: inline-block;
+  clear: both;
+}
+h4{
+  padding: 5px 0px 0px 15px;  /*in jquery, will expand to 15px */
+  margin-bottom: 35px;
+  margin-top: 0px;
+  color: #0e91ce;
+  font-size: 25px;
+}
+
+.h4-spacing{
+  margin-bottom: 10px;
+}
+
+.h4-spacing:hover{
+  transition: 0.3s;
+  /* background-color: #3e8641; */
+}
+
+
+/* h4 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.3s;
+}
+
+h4 span:before {
+  content: '\002B';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0s;
+}
+
+h4:hover span {
+  padding-right: 20px;
+}
+
+h4:hover span:before {
+  opacity: 1;
+  right: 0;
+} */
+
+button{
+  margin-left: 20px;
+}
+
+
+.dropdown{
+  position: relative;
+  display: inline-block;
+}
+.dropdown-projects{
+  display: none;
+  position: absolute;
+  background-color: #333333;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  font-size: 16px;
+}
+.dropdown-projects a{
+  padding: 7px 16px;
+  display: block;
+}
+.dropdown:hover .dropdown-projects{
+  display: block;
+}
+.dropdown:active .dropdown-projects{
+  display: block;
+}
+
+
+.non-nav-ul{
+  background: linear-gradient(#285da8, #3d6098);
+  color: white;
+  font-family: Adelle;
+  padding: 10px 25px;
+  margin: 15px 15px 0px 15px;
+  clear: both;
+  display: block;
+  max-width: 400px;
+}
+
+.non-nav-ul.first{
+  margin-top: 80px;
+  margin-right: 200px;
+  max-width: 400px;
+  min-width: 400px;
+  display: inline-block;
+}
+
+.overall .article-paragraphs{
+  display: none;
+}
+
+p.website-info{
+  color: white;
+  background: linear-gradient(#285da8, #3d6098);
+  line-height: 140%;
+  padding: 5px 15px;
+  margin: 15px;
+  clear: both;
+}
+
+p.article-paragraphs{
+  color: black;
+  font-family: Adelle;
+  font-size: 18px;
+  line-height: 200%;
+  padding: 5px 15px;
+  margin-top: -35px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+
+p.overallParagraph{
+  color: black;
+  font-family: Adelle;
+  font-size: 18px;
+  line-height: 200%;
+  padding: 5px 15px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+/* .sub-topic{
+  color: #0e91ce;
+  font-weight: bold;
+} */
+
+a:link, a:visited{       /*pseudo class*/
+  color: white;
+  text-decoration: none;
+}
+a:hover{
+  color: #bfbfbf;
+}
+
+a.fa:link {
+  display: inline;
+  float: right;
+  padding: 10px 15px;
+  font-size: 20px;
+  margin: 5px 2px;
+  /* margin-left: 50px; */
+}
+a.fa-spotify {
+  background: green;
+  color: white;
+}
+
+img{
+  /* max-width: 1000px; */
+}
+
+a.image-source{
+  color: #15acf2;
+  display: block;
+  border-bottom: 1px solid black;
+  margin-top: -10px;
+  font-size: 16px;
+}
+
+.article:link, .article:visited{       /*pseudo class*/
+  color: white;
+  text-decoration: none;
+}
+.article:hover{
+  color: #bfbfbf;
+}
+
+.article{
+  color: white;
+  background: linear-gradient(#285da8, #3d6098);
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  padding: 25px 15px;
+  margin: 15px 10px 0px 15px;
+  width: 30%;
+  max-width: 300px;
+  clear: both;
+}
+
+#about_blog{
+  margin-top: 15px;
+  margin-bottom: -10px;
+  display: block;
+}
+
+.first-article{
+  margin-top: 80px;
+}
+
+/*overflow: scroll hidden visible(default);*/
+
+.footer{
+  /* display: inline; */
+  margin-left: 15px;
+}
+
+#footer-back{
+  display: inline;
+  color:white;
+  background-color: #f04b4c;/*find a nice light blue instead of red*/
+  padding: 5px 10px;
+  width: 150px;
+  /*box-shadow: 0px 5px #999;*/
+}
+
+#footer-top{
+  display: inline;
+  color:white;
+  background-color: #f04b4c;/*find a nice light blue instead of red*/
+  padding: 5px 10px;
+  /* margin-left: -5px; */
+  /*box-shadow: 0px 5px #999;*/
+}
+
+/*#footer:hover {
+  box-shadow: 0px 5px #666;
+  transform: translateY(4px);
+}*/
