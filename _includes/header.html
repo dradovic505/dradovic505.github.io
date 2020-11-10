@@ -1,0 +1,26 @@
+{% if page.url == "/"%}
+    <span class="navbar-brand">Danilo's Thoughts</span>
+{% else %}
+    <a class="navbar-brand" href={{site.url}}>Danilo's Thoughts</a>
+{% endif %}
+<!-- "https://dradovic505.github.io/" -->
+<button class="navbar-toggler" type="button" 
+        data-toggle="collapse" data-target="#navbarSupportedContent" 
+        aria-controls="navbarSupportedContent" aria-expanded="false" 
+        aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{site.url}}/categories/movie-analyses/">Movie Analyses</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{site.url}}/categories/tech-reviews/">Tech Reviews</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{site.url}}/categories/album-analyses">Album Analyses</a>
+        </li>
+    </ul>
+</div>
