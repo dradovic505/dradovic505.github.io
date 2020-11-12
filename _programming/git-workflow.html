@@ -1,0 +1,105 @@
+---
+layout: default
+title: "My Git Workflow"
+date_str:  "November 2020"
+categories: "git"
+group: "Programming"
+summary: "The tried and true workflow"
+---
+
+<h2 class="border-bottom-headline">My Git Workflow</h2>
+
+<p class="p-indent">I wanted to post my general git workflow that git beginners may want to use. I ended up with this workflow based on all the issues that I've run into over the years; When I stick to this workflow I end up with as few merge conflicts as possible, and reversing any screw-ups is as trivial as possible.
+</p>
+<p>I always do my local work in a non-main branch. That way I can work on multiple solutions for one problem and switch between them. It also means that if there's a new commit that came from origin/main that I <i>know</i> I will conflict with what I'm currently doing, then I can still pull from origin/main so that local main is up-to-date but work on my separate branch.
+<pre><code>git checkout -b [branch name]</code></pre>
+</p>
+<p>If you want to sync your branch with origin/main (described in the next paragraph) but have uncommitted changes, git will complain when trying that sync. This can be like a config or build file that you have changed to enable local running or something similar, so it is not something you would ever want to push to main. So... you have the option to delete the changes manually, but the better solution is to stash your changes, do the sync, then pop those changes. As the naming suggests, you set aside those changed but uncommited files and then bring them back after the sync was safely completed.
+<pre><code>git stash
+git pull origin main -—rebase   //covered below
+git stash pop
+</code></pre>
+</p>
+
+<p>Barring the case where I purposely want to be on an older commit, I always keep the branch I'm working on up-to-date with the origin/main branch. Previously, I used <code>git pull origin main</code>. But the downside of this is that this creates a merge of the origin/main branch and your branch. This usually isn't a problem but if you ever want to revert a commit it may get hairy. So instead, I rebase! Rebasing on origin/main, like the command below, essentially takes commits from origin/main and puts them on top of the commits that are common between origin/main and your branch, then finally puts your local commits on top of those origin/main commits. This means your branch's history will be a straight line, which makes understanding the history much easier to decode.
+<pre><code>git pull origin main -—rebase</code></pre>
+
+<p class="p-separator"></p>
+
+<p>When I'm done editing files or directories, I add them with
+<pre><code>git add [file name or directory name]</code></pre>
+</p>
+<p>You can alternatively just do
+<code>git add -A</code> if you want to add all files, but there are multiple versions of "add all" that I can never remember. And frankly I often don't edit or create enough unique files in separate directories that aren't already covered by <code>git add [directory name]</code>.
+</p>
+
+<p>When I've added all the files I wanted, I'm ready to commit; nothing fancy here.
+<pre><code>git commit -m "commit message here"</code></pre>
+</p>
+
+<p>Let's say I've committed something, but made a small edit in one of the files in the edit - maybe just a couple lines. Instead of making an entirely extra commit on top of the one you already made - which can get unwieldly if you end up committing more than 3 or so times - you can amend your change!
+<pre><code>git commit --amend</code></pre>
+</p>
+
+<p class="p-separator"></p>
+
+<p>I'm now ready to push my changes to origin/main! I'm still on my local branch, and to make things as smooth as possible, I run the following
+<pre><code>git pull origin main -—rebase
+git checkout main
+git pull origin main -—rebase</code></pre>
+This means that both my local main and branch are in sync with origin/main so that the following command will properly put the two local branches on the same commit. 
+(I mentioned earlier you may want a branch to not be synced with origin/main for some reason - but if you ever wanted to push that change to origin/main you would eventually have to run <code>git pull origin main-—rebase</code>)
+</p>
+
+<p>Then to merge the changes off my local branch
+<pre><code>git merge [branch name]</code></pre>
+</p>
+<p>
+Now if you run
+<pre><code>git log --oneline</code></pre>
+You should see that both main and [local branch] have the same commit ID. But hold on. Let's say that I ended up with 2 or more commits on local branch due to the changes being different enough to not justify running <code>git commit --amend</code>? Well, after the merge now local main has those multiple commits as well. Could we still push to origin/main? Yup, and I'll go into why you may want to do that in the next section. However I personally often find that it is good practice to push *one commit at a time per package* to main or as a part of your code review. The reason being that once that the code is merged with origin/main, if someone else has to reverse changes due to a bug in Production or any other reason, it is simple to just revert that singular commit causing the problem.
+So anyways, how do you squash those multiple commits into one?
+</p>
+<pre><code>git rebase -i</code></pre>
+<p>The rebase command will take a look at all your local commits and bring up an interace (that's what the -i is for) that lets you write "pick" or "s" (for squash) for each commit. I always do "pick" for the top-most listed commit and "s" for all the ones below. Then once you confirm your choices with <code>:wq</code>, you will get another list, this time of messages from each commit. This is where you can mix and match (or create new) the commit message you want to end up having. You can do whatever you want, just note that prepending a line with # will disregard that comment in the commit message. I typically just choose the one that is most comprehensive and # the other ones, or edit it if need be.
+</p>
+<p>Getting back to why you would want to submit multiple commits without running <code>git rebase -i</code>. This is a good idea if your changes were that drastically different and contain different logic; whether you should is a judgement call based on your situation. A good rule of thumb is answering
+"if someone reverts the commit because of a problem, will an entirely unrelated set of logic - or even a different feature - be reverted as well?"
+If the answer is yes, then you may want to keep the commits separate - and possibly even submit them in separate code reviews.
+</p>
+
+<p class="p-separator"></p>
+
+<p>Phew, with all of that out of the way, we push and then rebase so that your git logs show origin/main containg your new commit.
+<pre><code>git push origin/main
+git pull origin main --rebase</code></pre>
+</p>
+<p>And for good measure, you can run 
+<code>git log --all --graph --decorate</code> or <code>git log --oneline</code> to admire your clean git history branch lines :)
+</p>
+<br>
+<h4>Some bonuses:</h4>
+<p>Multiple times I mentioned reverting a commit, how do you do that?
+<pre><code>git revert [commit]</code></pre>
+"revert" is a bit misleading, it sounds like you are rolling back to that commit. But in reality it is reversing the changes in that commit to be what they were before it; if you run git status after revert, you will see those same files edited, but in the reverse order! 
+What I mean is, if in commit abc you added</p>
+<p>
+<pre><code>- System.out.println("foo")
++ System.out.println("bar")</code></pre>
+</p>
+<p>
+running git revert abc will result in 
+<pre><code>+ System.out.println("foo")
+- System.out.println("bar")
+</code></pre>
+</p>
+<p>
+You can then add, commit, and push the reversal. This is great if you are need to reverse a commit that has a ton of files; you're not going to look at the git diff and make the changes file by file and line by line. git revert does it for you!
+</p>
+<p>Now, if you actually do need to roll back/reset to a commit and *permanently delete all commits after the chosen commit* you can run
+<pre><code>git reset --hard [commit id to reset to]</code></pre>
+And to reset to a commit but not permanently delete all newer commits, you run 
+<pre><code>git checkout [commit id]</code></pre>
+For a lot of more options, refer to <a href="https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit">this stack overflow post</a>
+</p>
+

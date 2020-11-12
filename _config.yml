@@ -32,6 +32,14 @@ collections:
         group: true
         summary: true
         output: true
+    programming:
+        title: true
+        date_str: true
+        layout: true
+        permalink: /:collection/:categories/:name/
+        group: true
+        summary: true
+        output: true
     categories:
         output: true
         title: true
