@@ -41,6 +41,8 @@ git stash pop
 <pre><code>git commit --amend</code></pre>
 </p>
 
+<p><span class="warning-text">Warning</span>: don't use <code>--amend</code> on a commit that has already been pushed to a remote branch.</p>
+
 <p class="p-separator"></p>
 
 <p>I'm now ready to push my changes to origin/main! I'm still on my local branch, and to make things as smooth as possible, I run the following
@@ -71,26 +73,26 @@ If the answer is yes, then you may want to keep the commits separate - and possi
 <p class="p-separator"></p>
 
 <p>Phew, with all of that out of the way, we push and then rebase so that your git logs show origin/main containg your new commit.
-<pre><code>git push origin/main
+<pre><code>git push origin main
 git pull origin main --rebase</code></pre>
 </p>
 <p>And for good measure, you can run 
-<code>git log --all --graph --decorate</code> or <code>git log --oneline</code> to admire your clean git history branch lines :)
+<code>git log --all --graph --decorate</code> or <code>git log --oneline</code> to admire your clean code tree/history :)
 </p>
 <br>
 <h4>Some bonuses:</h4>
 <p>Multiple times I mentioned reverting a commit, how do you do that?
 <pre><code>git revert [commit]</code></pre>
-"revert" is a bit misleading, it sounds like you are rolling back to that commit. But in reality it is reversing the changes in that commit to be what they were before it; if you run git status after revert, you will see those same files edited, but in the reverse order! 
-What I mean is, if in commit abc you added</p>
+"revert" is a bit misleading, it sounds like you are rolling back to that commit. But in reality it is reversing the changes in that commit to be what they were before it; if you run <code>git status</code> after revert, you will see those same files edited, but in the reverse order! 
+What I mean is, if in commit "abc" you added</p>
 <p>
-<pre><code>- System.out.println("foo")
-+ System.out.println("bar")</code></pre>
+<pre><code><span class="red-minus">-</span> System.out.println("foo")
+<span class="green-plus">+</span> System.out.println("bar")</code></pre>
 </p>
 <p>
-running git revert abc will result in 
-<pre><code>+ System.out.println("foo")
-- System.out.println("bar")
+running <code>git revert abc</code> will result in 
+<pre><code><span class="green-plus">+</span> System.out.println("foo")
+<span class="red-minus">-</span> System.out.println("bar")
 </code></pre>
 </p>
 <p>
