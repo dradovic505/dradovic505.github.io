@@ -21,7 +21,7 @@ git stash pop
 </code></pre>
 </p>
 
-<p>Barring the case where I purposely want to be on an older commit, I always keep the branch I'm working on up-to-date with the origin/main branch. Previously, I used <code>git pull origin main</code>. But the downside of this is that this creates a merge of the origin/main branch and your branch. This usually isn't a problem but if you ever want to revert a commit it may get hairy. So instead, I rebase! Rebasing on origin/main, like the command below, essentially takes commits from origin/main and puts them on top of the commits that are common between origin/main and your branch, then finally puts your local commits on top of those origin/main commits. This means your branch's history will be a straight line, which makes understanding the history much easier to decode.
+<p>Barring the case where I purposely want to be on an older commit, I always keep the branch I'm working on up-to-date with the origin/main branch. Previously, I used <code>git pull origin main</code>. But the downside of this is that this creates a merge of the origin/main branch and your branch. This usually isn't a problem but if you ever want to revert a commit it may get hairy. So instead, I rebase! Rebasing on origin/main, like the command below, essentially takes commits from origin/main and puts them on top of the commits that are common between origin/main and your branch, then finally puts your local commits on top of those origin/main commits. This means your branch's history will be a straight line, which makes understanding the history much easier to decode.</p>
 <pre><code>git pull origin main -—rebase</code></pre>
 
 <p class="p-separator"></p>

@@ -505,7 +505,6 @@
   
   code {
     font-size: 87.5%;
-    /* color: #e83e8c; */
     color: #2393af;
     word-wrap: break-word;
   }
@@ -538,7 +537,6 @@
   
   pre code {
     font-size: inherit;
-    /* color: inherit; */
     color: #2393af;
     word-break: normal;
   }
