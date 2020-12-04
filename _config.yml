@@ -27,14 +27,7 @@ collections:
     articles:
         title: true
         date_str: true
-        layout: true
-        permalink: /:collection/:categories/:name/
-        group: true
-        summary: true
-        output: true
-    programming:
-        title: true
-        date_str: true
+        ordering: true
         layout: true
         permalink: /:collection/:categories/:name/
         group: true
