@@ -373,6 +373,17 @@
   h2, .h2 {
     font-size: 2rem;
   }
+
+  h2.border-bottom-h2 {
+    text-decoration: underline;
+    text-decoration-color: rgb(0, 114, 210);
+    text-decoration-thickness: 0.1em;
+    
+    /* padding-bottom: 4px solid #2a6daf; */
+
+    /* border-bottom: 4px solid #2a6daf !important; /* 8fb5db */
+    /* margin-bottom: 0.7em;  */
+  }
   
   h3, .h3 {
     font-size: 1.75rem;

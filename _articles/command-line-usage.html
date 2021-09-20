@@ -1,0 +1,394 @@
+---
+layout: default
+title: "My Command Line Usage"
+date_str:  "September 19, 2021"
+date_num: 20210919
+categories: "command-line"
+group: "Programming"
+summary: "A quick way to make the most use of your computer's command line/terminal"
+---
+
+<h2 class="border-bottom-headline">My Command Line Usage</h2>
+
+<p class="p-indent">Using the command line - known on MacOS as terminal - can be daunting given its use of written commands instead of a graphic interface. However, it is a very powerful tool and can often be a more productive and effective way to execute programs.
+</p>
+
+<p>For example, what if you have 20 compressed files and want to search for "error" in all of them, then save those instances into a file? Without the command line, you would have to</p>
+<ol>
+    <li>uncompress the files </li>
+    <li>manually search each file for "error"</li>
+    <li>copy-paste each instance to a file (who knows how many there will be!)</li>
+</ol>
+or using an app
+<ol>
+    <li>find an app that does exactly (or close to) what you want</li>
+    <li>download it, hopefully it is free, hopefully it is trusted</li>
+    <li>familiarize yourself with the UI</li>
+    <li>get the app the output each instance of "error" in all your files to a new file</li>
+</ol>
+
+
+<p>But with command line, you can do this in <i>one line!</i>
+    <pre><code>zgrep -i "error" *.gz > output.txt</code></pre>
+</p>
+
+<p>And that's just the tip of the iceberg! Now that you see the power, let's get into some of the basics of the command line.
+
+<p>A program is the actual code that will run to execute the action you request. A program will have parameters, also known as arguments, that can be added so you can invoke more specific actions. Together, the program and its arguments make up a command that you can execute in the command line.</p>
+
+<p>The interface you see, like the terminal, to execute commands to the command line is also called the Command Line Interface (CLI). You'll often see CLI tools mentioned, so that's what people are referring to.</p>
+
+<p>Arguments often have a short form that can be invoked with <code>-</code>. The long form name can be invoked with <code>--</code>.
+You can invoke the short form with <code>[command] -[argument 1] -[argument 2]</code> and with <code>[command] -[argument 1][argument 2]</code> such as <code>ls -la</code>.</p>
+
+<p>First, lets go through a few basic knowledge about your computer.
+Your operating system has folders, also known as directories. On MacOS and Linux, the root directory is <code>/</code>. Every other directory can be reached from <code>/</code>. When you open a new window in your command line, you are plopped into the default directory. Think of the directory system as a tree (hence the term "root"). So you can have <code>/Users/daniloradovic/Desktop</code>.</p>
+
+<p>The home/default directory is denoted as <code>~</code>. Mine is at <code>/Users/daniloradovic</code>.</p>
+
+
+<p>You will often see <code>$</code> or some other symbol to denote the input to the command line - I will use <code>$</code>.</p>
+
+<p>What is actually running the program that you execute in the command line?
+This is called the shell. You can think of it as a program that runs your programs. You are entering commands to the shell as input and it can output results to the standard output (stdout) which is what you see outputted to the screen.</p>
+
+<h2 class="border-bottom-h2">Storing commonly used commands</h2>
+Some commands you may use very often and its a pain to keep writing them out. For example if you use git version control for and use <code>git pull origin mainline --rebase</code>. Well, to make life easier you can give the command an alias and invoke the alias instead of the full command - for the aforementioned command you could use an alias like <code>grm</code>.
+First, identify which shell your machine is using. Run <code>echo $0</code> - it will likely return "bash" or "zsh".
+If bash, add the following to the file <code>~/.bashrc</code>. If zsh, add to <code>~/.zshrc</code>
+<pre><code>
+alias gs="git status"
+alias grm="git pull origin mainline --rebase"
+alias gdn="git diff --name-only"
+alias cdd="cd ../.."
+alias cl="cd ..; ls"
+alias gla="git log --all --graph --decorate"
+alias glo="git log --oneline"
+</code></pre>
+
+<p> Run <code>source ~/.bashrc</code> or <code>source ~/.zshrc</code> and your aliases should now be useable.
+</p>
+    
+<p>Okay - let's jump into the commands! I am listing out my most commonly used beginners commands and arguments, so for some commands I list out more information than others when required. I will have another article for with some more commands that I use less commonly or are more intermediate.</p>
+
+<h2 class="border-bottom-h2">man</h2>
+<p>
+You can run <code>man [name of program]</code> to see the manual for the program. This gives you the description and a list of all the arguments that can be used with the program. This is super useful if you are having trouble finding an explanation for what a command and its arguments do, or want to see a list of arguments you haven't encountered before!
+</p>
+
+<h2 class="border-bottom-h2">echo</h2>
+<p>
+<code>echo</code> will print out to the standard output (stdout) the arguments you provided it.
+<pre><code>$echo "hello"
+hello
+$echo blah.txt
+blah.txt
+</code></pre>
+Notice that even though blah.txt is a file with contents, the actual string "blah.txt" is returned.
+</p>
+
+<h2 class="border-bottom-h2">pwd</h2>
+<p>
+<code>pwd</code> shows you which directory you are in at any given time
+<pre><code>$ pwd
+/Users/daniloradovic/Documents
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">cat</h2>
+<p>
+<code>cat</code> outputs the contents of a file to the standard output.
+<pre><code>$ cat foo.txt
+Hello there
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">cd</h2>
+<p>
+<code>cd</code> allows you to change directories. There are a bunch of very useful arguments, all of which tell the program which directory you want to go to. 
+When using actual paths instead of shortcut arguments, you can either input a <u>relative</u> or <u>absolute</u> path. Relative means relative to the current directory you are in, absolute means relative to the root. 
+An example of moving to an <u>absolute</u> path is:
+<pre><code>$ cd /Users/daniloradovic/Desktop</code></pre>
+You can move down into a folder or move up into a higher level folder with <u>relative</u> paths
+Relatively moving into a folder within your current directory:
+<pre><code>$ cd Desktop
+</code></pre>
+Relatively moving into a nested folder within your current directory:
+<pre><code>$ cd Desktop/testFolder1/testFolder2
+</code></pre>
+
+Here are some common shortcuts for relative movement.
+Relatively moving out of a folder one level up the tree:
+<pre><code>$ pwd
+Desktop/testFolder1/testFolder2
+$ cd ..
+$ pwd
+Desktop/testFolder1
+</code></pre>
+Relatively moving to the same folder you're in:
+<pre><code>$ cd .
+</code></pre>
+Note that <code>cd ./testFolder1/testFolder2</code> and <code>cd testFolder1/testFolder2</code> do the same thing.
+
+
+Moving to the last directory you were at before the current one:
+<pre><code>$ pwd
+Desktop/testFolder1/testFolder2
+$ cd ..
+$ pwd
+Desktop/testFolder1
+$ cd -
+$ pwd
+Desktop/testFolder1/testFolder2
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">ls</h2>
+<p>
+<code>ls</code> will print out the files and folders in your current directory
+<pre><code>$ ls
+Desktop
+Pictures
+Documents
+</code></pre>
+</p>
+
+arguments:
+<p><code>ls -l</code> will print out the files/folders in the current directory in addition to a lot of other information such as permissions, user/owner, size in bytes, and date created/</p>
+
+<p><code>ls -a</code> will print out all files - even hidden ones. Hidden files often have a <code>.</code> in front of it such as <code>.zshrc</code>
+</p>
+
+<h2 class="border-bottom-h2">Mini lesson: Permissions</h2>
+<p>
+When doing <code>ls -l</code> you will see something like
+<code>-rw-r--r--@</code>. This denotes read, write, execute permissions for each user group. A dash represents a lack of that permission for the group. Here is what it will look like giving everyone permissions to do all 3 actions for a file:
+</p>
+<pre><code>-rwxrwxrwx@</code></pre>
+<p>
+And for a directory:
+<pre><code>drwxrwxrwx@</code></pre>
+</p>
+
+You can see <code>rwx</code> is repeated 3 times. The first group represents permissions for Users (the current user), the second for Groups, the third for Others.
+
+The d means the object is a directory, a dash represents everything else, such as a file or program.
+
+<h2 class="border-bottom-h2">chmod</h2>
+<p>
+Now that you know about permissions, you can use chmod to change the permissions of a file or directory.
+The general structure is 
+chmod [groups]+[permissions] "[file]"
+where groups can be any permutation of u, g, and o and permissions can be any permutation of r, w, and x.
+For example to allow users, groups, and others to have full read, write, and execute permissions of a file, you would run
+<pre><code>chmod ugo+rwx "foo.txt"</code></pre>
+</p>
+As a shorthand, you can use <code>chmod a+rwx</code> to represent changes across all the permission groups.
+
+<h2 class="border-bottom-h2">sudo</h2>
+You can put <code>sudo</code> in front of the rest of a normal command in order to execute the command as the root super user of the machine. This can sometimes let you take actions you normally wouldn't do, such as changing core values of the machine itself. This can be dangerous and corrupt your entire machine! So, only use sudo when you know it is safe.
+
+<h2 class="border-bottom-h2">mkdir</h2>
+<p>
+<code>mkdir</code> makes a directory in the path that you specify
+<pre><code>$ ls
+foo.txt
+$ mkdir ~/Documents/bar
+$ ls
+bar
+foo.txt
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">grep/zgrep</h2>
+<p>
+<code>grep</code> allows you to search for strings within uncompressed file (of type .txt, .log, etc).
+<code>zgrep</code> is the same as <code>grep</code> but works for compressed files like the .gz file type
+<pre><code>$grep "error" ~/Documents/*</code></pre>
+some useful arguments are 
+<ul>
+    <li><code>-i</code> makes the query case-insensitive</li>
+    <li><code>-c</code> does a count of occurrences</li>
+    <li><code>-C [number]</code> prints out [number] lines before and after each occurrence's line</li>
+    <li><code>--color=always</code> colors the query so it is easier to spot it in the output</li>
+</ul>
+</p>
+<p>
+ Note that printing to the standard output can be very inefficient and clunky; it also prevents easy further searches into the output and other manipulations of the data. So, often you can pair <code>grep</code>/<code>zgrep</code> with <code>></code> to print the output to a file as such
+ <pre><code>$grep "error" ~/Documents/* > errors.txt</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">cp</h2>
+<p>
+<code>cp</code> stands for copy; you can provide it a source file or directory and destination file name or directory name
+<pre><code>$ cp foo.txt bar.txt
+</code></pre>
+</p>
+<p>
+Use <code>-r</code> when copying a folder. Use <code>-i</code> to display a confirmation message before doing the copying
+</p>
+
+<h2 class="border-bottom-h2">rm</h2>
+<p>
+<code>rm</code> removes a file. To remove a directory, use <code>rm -r</code>.
+<pre><code>$ ls
+$ rm bar.txt
+$ ls
+$ rm -r bar
+</code></pre>
+Note: you can use <code>-f</code> to force a deletion, but be very careful with this because it is irreversible!
+</p>
+
+<h2 class="border-bottom-h2">find</h2>
+<p>
+<code>find</code> will find specified files or directories in the path you specify. The basic usage is 
+<pre><code>find [path to search in] -name "[query string]"</code></pre>
+searching for file names
+<pre><code>
+$find ~/Documents -iname "blah*"
+./blah.txt
+</code></pre>
+searching for file types
+
+<pre><code>
+$find ~/Documents -iname "*.txt"
+./blah.txt
+./foo.txt
+./bar/test.txt
+</code></pre>
+</p>
+
+<p>
+Note that it will return all results that match the criteria no matter how many levels deep in the directory from the starting path. To specify the depth, you can use <code>-depth [number]</code>. 
+<pre><code>$ find ~/Documents -depth 4 -iname "*.txt"
+</code></pre>
+</p>
+<p>
+This returns only the results <i>at that depth</i>, not everything from depth 1 to [number]. You can use <code>-maxdepth [number]</code> to return everything from depth 1 to [number].
+<pre><code>$ find ~/Documents -maxdepth 4 -iname "*.txt"</code></pre>
+</p>
+
+<p>
+The above is just some simple examples; <code>find</code> is extremely powerful and has a ton of arguments that can make your searches very advanced. Go check them out with <code>man find</code>.
+</p>
+
+
+<h2 class="border-bottom-h2">wc</h2>
+<p>
+<code>wc</code> stands for wordcount. Running the program with just the file as input yields
+<pre><code>$ wc foo.txt
+  1       2      12 foo.txt
+</code></pre>
+representing lines, words, and characters in the file. The below are my most commonly used arguments:
+<ul>
+<li><code>-c</code> returns the number of bytes in the file</li>
+<li><code>-l</code> returns the length of the file</li>
+<li><code>-m</code> returns the number of characters</li>
+<li><code>-w</code> returns the number of words</li>
+</ul>
+</p>
+
+<h2 class="border-bottom-h2">&</h2>
+<p>
+This allows you to run a command in the background so you can continue using your shell to run other commands.
+You append it to the end of the command you want to run in the background, such as grepping a folder containing hundreds of files
+<pre><code>$ grep -i "error" * &
+</code></pre>
+</p>
+
+
+<h2 class="border-bottom-h2">></h2>
+<p>
+This is called a redirect. This allows the output of command 1 to be the output for a file. If the file already exists, its contents are overwritten.
+<pre><code>$ echo "Hello there" > foo.txt
+$ cat foo.txt
+hello there
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">>></h2>
+<p>
+Is the same as > except it appends to the existing content of the file provided - if any. It does not overwrite the content
+<pre><code>$ echo "Hello there" > foo.txt
+$ echo "General Kenobi" >> foo.txt
+$ cat foo.txt
+Hello there
+General Kenobi
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2"> ; </h2>
+<p>
+<code>[command 1 ]; [command 2]</code> allows you to execute command 1 first then execute command 2 after command 1 finishes. There is no interaction or information passed between the two.
+<pre><code>$ cd ~/Documents; ls 
+foo.txt
+bar
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">&&</h2>
+<p>
+<code>[command 1 ] && [command 2]</code> will execute command 1 and then only run command 2 if the first did not fail. A basic example is making an empty file and filling it with contents only if the file creation succeeded.
+<pre><code>$ touch test.txt && echo "Hello there" > test.txt
+$ cat test.txt
+Hello there
+</code></pre>
+</p>
+
+
+
+<h2 class="border-bottom-h2">df</h2>
+<p>
+Displays the free disk space. I use df -h for "human-readable" output.
+<pre><code>$ df -h
+  Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+  /dev/disk1s5s1  234Gi   23Gi   57Gi    29%  563932 2448561428    0%   /
+  devfs           191Ki  191Ki    0Bi   100%     662          0  100%   /dev
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">Identify which process is using a port</h2>
+You can use any of the 3 below commands to figure out which process is using a port of interest (in this example, port 8000):
+<pre><code>
+fuser -n tcp 8000
+lsof -i :8000
+curl http://localhost:8000 -v
+</code></pre>
+
+<h2 class="border-bottom-h2">kill</h2>
+<p>
+This will kill the process running on a port. Use the <code>-9</code> argument to do a "non-catchable, non-ignorable kill"
+<pre><code>kill -9 [port]
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">ssh</h2>
+<p>
+<code>ssh</code> lets you access the command line of a destination host directly from a source machine, like your laptop! To connect, you may simply run
+<pre><code>ssh [host@host.com]</code></pre>
+</p>
+<p>
+    For more advanced usage of ssh, take a look at <a href="https://www.ssh.com/academy/ssh/tunneling/example">this</a> as a great resource for port forwarding/tunneling.
+</p>
+
+<h2 class="border-bottom-h2">open</h2>
+<p>
+opens the file or directory in the default program. For me, directories open in Finder and files open in TextEdit
+<pre><code>$ open blah.txt
+$ open .  // remember, . means the current directory
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">vim</h2>
+<p>
+<code>vim</code> is a program that allows you to view contents of a file and edit them; it is very powerful and has its own commands within the program itself.</p>
+<p>
+To enter vim, just type <code>vim [file name]</code>. To exit vim, type <code>:q</code> or if that doesn't work try <code>:q!</code> which will force quit.
+</p>
+<p>vim works in modes, such as a write mode. To exit any mode, simply press the escape button. </p>
+
+<p>There's a ton of other useful commands, which I will detail in another article. However, to just get you started with vim, enter into a file and press <code>i</code>. Now you are in write mode and can edit the file.</p>
+
+<p>
+Note: some machines don't have vim pre-installed. Most of those should have <code>vi</code> installed, which is an earlier version of <code>vim</code> (vim actually stands for Vi IMproved).
+</p>
