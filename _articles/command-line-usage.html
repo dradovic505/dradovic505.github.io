@@ -34,7 +34,7 @@ or using an app
 
 <p>And that's just the tip of the iceberg! Now that you see the power, let's get into some of the basics of the command line.
 
-<p>A program is the actual code that will run to execute the action you request. A program will have parameters, also known as arguments, that can be added so you can invoke more specific actions. Together, the program and its arguments make up a command that you can execute in the command line.</p>
+<p>A program is the actual code that will run to execute the action you request. A program will have parameters, also known as arguments or flags (see the history and details about their naming <a href="https://unix.stackexchange.com/questions/285575/whats-the-difference-between-a-flag-an-option-and-an-argument">here</a>. For all practical purposes, they are used interchangably), that can be added so you can invoke more specific actions. Together, the program and its arguments make up a command that you can execute in the command line.</p>
 
 <p>The interface you see, like the terminal, to execute commands to the command line is also called the Command Line Interface (CLI). You'll often see CLI tools mentioned, so that's what people are referring to.</p>
 
@@ -66,10 +66,13 @@ alias gla="git log --all --graph --decorate"
 alias glo="git log --oneline"
 </code></pre>
 
-<p> Run <code>source ~/.bashrc</code> or <code>source ~/.zshrc</code> and your aliases should now be useable.
+<p>
+Run <code>source ~/.bashrc</code> or <code>source ~/.zshrc</code> and your aliases should now be useable.
 </p>
     
-<p>Okay - let's jump into the commands! I am listing out my most commonly used beginners commands and arguments, so for some commands I list out more information than others when required. I will have another article for with some more commands that I use less commonly or are more intermediate.</p>
+<p>
+Okay - let's jump into the commands! I am listing out my most commonly used beginners commands and arguments, so for some commands I list out more information than others when required. I will have another article for with some more commands that I use less commonly or are more intermediate.
+</p>
 
 <h2 class="border-bottom-h2">man</h2>
 <p>
@@ -109,14 +112,22 @@ Hello there
 When using actual paths instead of shortcut arguments, you can either input a <u>relative</u> or <u>absolute</u> path. Relative means relative to the current directory you are in, absolute means relative to the root. 
 An example of moving to an <u>absolute</u> path is:
 <pre><code>$ cd /Users/daniloradovic/Desktop</code></pre>
+</p>
+
+<p>
 You can move down into a folder or move up into a higher level folder with <u>relative</u> paths
 Relatively moving into a folder within your current directory:
 <pre><code>$ cd Desktop
 </code></pre>
+</p>
+
+<p>
 Relatively moving into a nested folder within your current directory:
 <pre><code>$ cd Desktop/testFolder1/testFolder2
 </code></pre>
+</p>
 
+<p>
 Here are some common shortcuts for relative movement.
 Relatively moving out of a folder one level up the tree:
 <pre><code>$ pwd
@@ -125,13 +136,16 @@ $ cd ..
 $ pwd
 Desktop/testFolder1
 </code></pre>
+</p>
+
+<p>
 Relatively moving to the same folder you're in:
 <pre><code>$ cd .
 </code></pre>
-Note that <code>cd ./testFolder1/testFolder2</code> and <code>cd testFolder1/testFolder2</code> do the same thing.
+</p>
 
-
-Moving to the last directory you were at before the current one:
+<p>
+Note that <code>cd ./testFolder1/testFolder2</code> and <code>cd testFolder1/testFolder2</code> do the same thing. Moving to the last directory you were at before the current one:
 <pre><code>$ pwd
 Desktop/testFolder1/testFolder2
 $ cd ..
@@ -181,9 +195,12 @@ The general structure is
 chmod [groups]+[permissions] "[file]"
 where groups can be any permutation of u, g, and o and permissions can be any permutation of r, w, and x.
 For example to allow users, groups, and others to have full read, write, and execute permissions of a file, you would run
-<pre><code>chmod ugo+rwx "foo.txt"</code></pre>
+<pre><code>$ chmod ugo+rwx "foo.txt"</code></pre>
 </p>
+
+<p>
 As a shorthand, you can use <code>chmod a+rwx</code> to represent changes across all the permission groups.
+</p>
 
 <h2 class="border-bottom-h2">sudo</h2>
 You can put <code>sudo</code> in front of the rest of a normal command in order to execute the command as the root super user of the machine. This can sometimes let you take actions you normally wouldn't do, such as changing core values of the machine itself. This can be dangerous and corrupt your entire machine! So, only use sudo when you know it is safe.
@@ -213,6 +230,7 @@ some useful arguments are
     <li><code>--color=always</code> colors the query so it is easier to spot it in the output</li>
 </ul>
 </p>
+
 <p>
  Note that printing to the standard output can be very inefficient and clunky; it also prevents easy further searches into the output and other manipulations of the data. So, often you can pair <code>grep</code>/<code>zgrep</code> with <code>></code> to print the output to a file as such
  <pre><code>$grep "error" ~/Documents/* > errors.txt</code></pre>
@@ -224,6 +242,7 @@ some useful arguments are
 <pre><code>$ cp foo.txt bar.txt
 </code></pre>
 </p>
+
 <p>
 Use <code>-r</code> when copying a folder. Use <code>-i</code> to display a confirmation message before doing the copying
 </p>
@@ -245,13 +264,13 @@ Note: you can use <code>-f</code> to force a deletion, but be very careful with 
 <pre><code>find [path to search in] -name "[query string]"</code></pre>
 searching for file names
 <pre><code>
-$find ~/Documents -iname "blah*"
+$ find ~/Documents -iname "blah*"
 ./blah.txt
 </code></pre>
-searching for file types
 
-<pre><code>
-$find ~/Documents -iname "*.txt"
+<p>
+searching for file types
+<pre><code>$ find ~/Documents -iname "*.txt"
 ./blah.txt
 ./foo.txt
 ./bar/test.txt
@@ -263,6 +282,7 @@ Note that it will return all results that match the criteria no matter how many 
 <pre><code>$ find ~/Documents -depth 4 -iname "*.txt"
 </code></pre>
 </p>
+
 <p>
 This returns only the results <i>at that depth</i>, not everything from depth 1 to [number]. You can use <code>-maxdepth [number]</code> to return everything from depth 1 to [number].
 <pre><code>$ find ~/Documents -maxdepth 4 -iname "*.txt"</code></pre>
@@ -295,7 +315,6 @@ You append it to the end of the command you want to run in the background, such 
 <pre><code>$ grep -i "error" * &
 </code></pre>
 </p>
-
 
 <h2 class="border-bottom-h2">></h2>
 <p>
@@ -335,8 +354,6 @@ Hello there
 </code></pre>
 </p>
 
-
-
 <h2 class="border-bottom-h2">df</h2>
 <p>
 Displays the free disk space. I use df -h for "human-readable" output.
@@ -350,23 +367,24 @@ Displays the free disk space. I use df -h for "human-readable" output.
 <h2 class="border-bottom-h2">Identify which process is using a port</h2>
 You can use any of the 3 below commands to figure out which process is using a port of interest (in this example, port 8000):
 <pre><code>
-fuser -n tcp 8000
-lsof -i :8000
-curl http://localhost:8000 -v
+$ fuser -n tcp 8000
+$ lsof -i :8000
+$ curl http://localhost:8000 -v
 </code></pre>
 
 <h2 class="border-bottom-h2">kill</h2>
 <p>
 This will kill the process running on a port. Use the <code>-9</code> argument to do a "non-catchable, non-ignorable kill"
-<pre><code>kill -9 [port]
+<pre><code>$ kill -9 [port]
 </code></pre>
 </p>
 
 <h2 class="border-bottom-h2">ssh</h2>
 <p>
 <code>ssh</code> lets you access the command line of a destination host directly from a source machine, like your laptop! To connect, you may simply run
-<pre><code>ssh [host@host.com]</code></pre>
+<pre><code>$ ssh [host@host.com]</code></pre>
 </p>
+
 <p>
     For more advanced usage of ssh, take a look at <a href="https://www.ssh.com/academy/ssh/tunneling/example">this</a> as a great resource for port forwarding/tunneling.
 </p>
@@ -381,7 +399,13 @@ $ open .  // remember, . means the current directory
 
 <h2 class="border-bottom-h2">vim</h2>
 <p>
-<code>vim</code> is a program that allows you to view contents of a file and edit them; it is very powerful and has its own commands within the program itself.</p>
+Vim is a program that allows you to view contents of a file and edit them; it is very powerful and has its own commands within the program itself. My preference is to use vim through ther command line when I need to quickly view, search, or edit files within minutes or needing to navigate across the file. In other cases like needing to work on Java code in long files or codebases where there are methods sprawled across many files, I'll use a code editor like VSCode. 
+</p>
+
+<p>
+Vim is still very important for software developers to be familiar with because a lot of times machines that you need to ssh into that hold your logs will have no option for easily viewing files besides Vim or Emacs (a similar program). It may also be difficult or a hassle to always open them in a code editor given they live on a machine other than your development machine. Below are just the bare basics for Vim that allow you to enter/exit the program. See my <a href="{{site.url}}/articles/command-line/command-line-usage#vim">Command Line Usage Part Two</a> article for a more practical guide on Vim.
+</p>
+
 <p>
 To enter vim, just type <code>vim [file name]</code>. To exit vim, type <code>:q</code> or if that doesn't work try <code>:q!</code> which will force quit.
 </p>

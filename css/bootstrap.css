@@ -197,6 +197,15 @@
     vertical-align: middle;
     border-style: none;
   }
+
+  img.centered-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    /* width: 50%; */
+  }
   
   svg {
     overflow: hidden;
@@ -1682,14 +1691,16 @@
   
   .table {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     color: #212529;
+    border: 2px solid #dee2e6;
   }
   
   .table th,
   .table td {
-    padding: 0.75rem;
-    vertical-align: top;
+    padding: 1rem;
+    vertical-align: center;
     border-top: 1px solid #dee2e6;
   }
   

@@ -1,0 +1,515 @@
+---
+layout: default
+title: "My Command Line Usage Part 2"
+date_str:  "September 28, 2021"
+date_num: 20210928
+categories: "command-line"
+group: "Programming"
+summary: "A quick way to make the most use of your computer's command line/terminal"
+---
+
+<h2 class="border-bottom-headline">My Command Line Usage</h2>
+
+<p class="p-indent">
+    Welcome - in this article I'll continue detailing some command line tools that I use frequently or can often be of use to any general developer. I suggest reading through <a href="{{site.url}}/articles/command-line/command-line-usage/">Part One</a> for some of the more basic commands.
+</p>
+
+<h2 class="border-bottom-h2">Identify the process using a port</h2>
+<p>
+Sometimes you are trying to use a port on your machine but it is already in use. To see what process is using the port, any of the 3 below commands will help you identify it:
+<pre><code>$ fuser -n tcp 8000
+$ lsof -i :2009
+$ curl http://localhost:8000 -v
+</code></pre>
+</p>
+
+<h2>|</h2>
+<p>
+<code>|</code> is called a "pipe". This is because it is used to pipe the output of one command as the output of another. Then, unless another pipe is used or specified otherwise, command 2 outputs to the command line as usual.
+<pre><code>$ command 1 | command 2</code></pre>
+</p>
+
+<p>
+As an example, let's print the contents of a file to stdout then pipe the output to <code>wc</code> to determine the number of lines in the file:
+<pre><code>$ cat foo.txt | wc -l 
+2
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">xargs</h2>
+<p>
+<code>xargs</code> is used when trying to pipe like above, but command 2 cannot take the output of command 1 as input, say because it is not a flat array of inputs. So, <code>xargs</code> flattens the output from command 1 to a single line, which allows it to pass the results:
+<pre><code>$ cat foo.txt
+hello there:
+general kenobi
+
+$ cat foo.txt | xargs      
+hello there: general kenobi
+</code></pre>
+</p>
+
+<p>
+Continuing from our use of <code>wc -l</code>, if we have a list of files in <code>files.txt</code>, we can check the file length of each of them using xargs:
+<pre><code>$ cat files.txt
+foo.txt
+foo2.txt
+
+$ cat files.txt | xargs wc -l
+2
+2
+</code></pre>
+</p>
+
+<p>
+Hand in hand with piping, <code>xargs</code> allows you a lot more functionality and expert usage of the command line. A great read of xargs is <a href="https://www.howtogeek.com/435164/how-to-use-the-xargs-command-on-linux/">this one</a> from How-To Geek.
+</p>
+
+
+<h2 class="border-bottom-h2">awk</h2>
+<p>
+<code>awk</code> is a powerful CLI tool that is used for searching files for queries, and can get quite complex due to being used very programmatically. For example, you can assign variable names as arguments and use those in your specified execution, such as printing. Given <code>awk</code>'s programatic nature, I highly recommend the <a href="https://www.tutorialspoint.com/awk/index.htm">full set of articles</a> that Tutorials Point takes to cover it! Here, I will just cover the general structure and usage I have personally used.
+</p>
+
+<p>
+With <code>awk</code>, the structure of the command looks like <code>awk [arguments] [file name</code> where the argument can be more programmatic when wrapped in <code>'{ }'</code>. For example, you can print contents of a file with:
+<pre><code>$ awk '{print}' foo.txt
+Hello There
+General Kenobi
+</code></pre>
+</p>
+
+<p>
+Importantly, there are variables that <code>awk</code> uses to represent/store different properties of a line of a file. Namely, <code>$1</code>, <code>$2</code>, <code>$3</code> and so on represent the fields of a line where spaces and tabs are delimiters. <code>$0</code> represents the whole line.
+<pre><code>$ awk '{print $0}' foo.txt
+Hello there
+General Kenobi
+
+$ awk '{print $1}' foo.txt
+Hello
+General
+</code></pre>
+</p>
+
+<p>
+The usage of <code>awk</code> I've found to use most commonly is:
+<pre><code>$ grep -c -i "query" *.txt | awk '{print substr($0,length)}' \
+    | awk '{s+=$1} END {print s}'
+</code></pre>
+Overall, this will print out a single number representing the total occurrences of a query from all text files in the directory. Let's dive into each section:
+<pre><code>$ grep -c -i "e" *.txt
+blah.txt:1
+blah2.txt:0
+find_results.txt:1
+foo.txt:2
+foo2.txt:2
+foo3.txt:3
+foo4.txt:2
+</code></pre>
+</p>
+
+<p>
+<code>grep</code> outputs the count of string "e" in all text files in the directory, one line per file. But if I want just the numbers, the first <code>awk</code> command is introduced:
+<pre><code>$ grep -c -i "e" *.txt | awk '{print substr($0,length)}'     
+1
+0
+1
+2
+2
+3
+2
+</code></pre>
+</p>
+
+<p>
+<code>substr</code> takes the form of <code>substr(string, start, end)</code> so <code>$0</code> is the input string (remember, <code>$0</code> is a whole line). While we could have provided an integer (starting from 0) as start, we can also provide just <code>length</code> to tell the command to print the character at the end. Replacing <code>length</code> with <code>length-1</code> results in the colon before each count to also be printed. We don't specify anything as the end since it is optional and not needed in this case. 
+</p>
+
+<p>
+Note that we could have also used <code>cut</code> here (introduced later in this article). The counts aren't really useful in this form, let's add them together, bringing us back to the original query:
+<pre><code>$ grep -c -i "e" *.txt | awk '{print substr($0,length)}' \
+    | awk '{s+=$1} END {print s}'
+11
+</code></pre>
+</p>
+count numbers at the end of output lines with awk
+
+awk '{print $2}'
+
+<h2 class="border-bottom-h2">ln</h2>
+<p><code>ln</code> makes links/references to a file or directories on your machine.</p>
+
+<h4>Hard link for files</h4>
+
+<p>
+When you don't specify the argument <code>-s</code>, <code>ln</code> will make a "hard" link. This means that your link reference points directly to a file itself in storage that contains the same contents as the selected file. Meaning, any action taken on either the link reference or selected file, the action is reflected on both. I'll demonstrate on a hard link for <code>/Users/daniloradovic/Documents</code>.
+
+<pre><code>$ cat /Users/daniloradovic/Documents/test.txt
+Hello there
+
+$ ln /Users/daniloradovic/Documents/test.txt my-hard-link
+
+$ cat my-hard-link
+Hello there
+
+$ echo "General Kenobi" >> my-hard-link
+
+$ cat my-hard-link
+Hello there
+General Kenobi
+
+$ cat /Users/daniloradovic/Documents/test.txt
+Hello there
+General Kenobi
+</code></pre>
+You can see that upon changing the data for <code>my-hard-link</code>, <code>test.txt's</code> contents also change. If you delete the link, the selected file is still intact. If you delete the selected file, the link will still exist.
+</p>
+
+<p>
+<pre><code>$ rm /Users/daniloradovic/Documents/test.txt
+
+$ cat /Users/daniloradovic/Documents/test.txt
+cat: /Users/daniloradovic/Documents/test.txt: No such file or directory
+
+$ cat my-hard-link
+Hello there
+General Kenobi
+</code></pre>
+</p>
+
+<h4>Symbolic link for files</h4>
+<p>
+When you use the argument <code>-s</code>, <code>ln</code> will make a "symbolic" link to the specified file. This is a reference to the location of the file. As with hard links, you can still take actions to edit the selected file through the symbolic link.
+<pre><code>$ cat /Users/daniloradovic/Documents/test.txt
+Hello there
+$ ln -s /Users/daniloradovic/Documents/test.txt my-symbolic-link
+$ cat my-hard-link
+Hello there
+$ echo "General Kenobi" >> my-symbolic-link
+$ cat my-hard-link
+Hello there
+General Kenobi
+$ cat /Users/daniloradovic/Documents/test.txt
+Hello there
+General Kenobi
+</code></pre>
+You can see that upon changing the data for <code>my-symbolic-link</code>, <code>test.txt's</code> contents also change. You can also run <code>ls -la</code> and see the link relationship defined
+<pre><code>
+$ ls -la
+lrwxr-xr-x   1 daniloradovic my-symbolic-link -> /Users/daniloradovic/Documents/test.txt
+</code></pre>
+</p>
+
+<p>
+You can remove the link and the selected file is not deleted. However, if you remove the selected file, the symbolic link will point to nothing:
+<pre><code>$ rm /Users/daniloradovic/Documents/test.txt
+$ cat /Users/daniloradovic/Documents/test.txt
+cat: /Users/daniloradovic/Documents/test.txt: No such file or directory
+$ cat my-symbolic-link
+cat: my-symbolic-link: No such file or directory
+</code></pre>
+</p>
+
+<h4>Symbolic link for directories</h4>
+The command and behavior of symbolic links for directories is the exact same as the above for a file, but you provide the specified directory instead of a file
+<pre>
+<code>$ ln -s /Users/daniloradovic/Documents/testDir my-symbolic-directory-link</code>
+</pre>
+
+<h2 class="border-bottom-h2">sed</h2>
+<p>
+<code>sed</code> is a stream editor, meaning it allows you to edit files inputted to it, straight from the command line. The catch is that the original file is not changed, but instead the new text is printed to stdout. <code>sed</code> can be used for finding, replacing, printing, and/or deleting text . The basic usage of sed for search and replace is <code>sed 's/[pattern to replace]/[replacement pattern]/' [file name]</code>.replacement wil
+<pre><code>$ cat foo.txt
+Hello there
+Who is there
+Look over there
+
+$ sed 's/there/here/' foo.txt
+Hello here
+Who is here
+Look over here
+
+$ cat foo.txt
+Hello there
+Who is there
+Look over there
+</code></pre>
+</p>
+
+<p>
+So we've replaced all instances of "there" with "here". And as mentioned, the original file <code>foo.txt</code> was not changed. Because of this, <code>sed</code> is super useful for copying files to new ones with small tweaks. It can also be used in a string of commands piped together (say, piping <code>sed</code> to <code>sort</code> to <code>uniq</code>).
+</p>
+
+<p>
+Similarly, you can delete lines using <code>sed</code> with <code>/d</code>. Note that in the first example nothing is deleted because its not an exact match. In the second example the whole line "Hello there" is matched so it is deleted. In the third example we use <code>-E</code> for extended regex (regular expression) interpretations, which will delete "Who is there" because of the presence of "is".
+<pre><code>$ cat foo.txt
+Hello there
+Who is there
+Look over there
+
+$ sed '/there/d' foo.txt
+Hello there
+Who is there
+Look over there
+
+$ sed '/Hello there/d' foo.txt
+Who is there
+Look over there
+
+$ sed -E '/is/d' foo3.txt
+Hello there
+Look over there
+</code></pre>
+</p>
+
+<p>
+If you want to edit or delete the actual contents of the file with <code>/s</code> or <code>/d</code>, you can use the argument <code>-i</code>.
+</p>
+
+<p>
+Geeks For Geeks has a <a href="https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/">great article</a> going more in depth with the usage of <code>sed</code> that is worth a read.
+</p>
+
+
+<h2 class="border-bottom-h2">sort</h2>
+<p>
+<code>sort</code> sorts lines within text, or binary files. Lines can be delimited by newlines or NUL
+'\0' characters. To set NUL as the separator, use the argument <code>-z</code>. To reverse in reverse order, use <code>-r</code>.
+<pre><code>$ echo "zeppelin\nspark\natom\njava" | sort
+atom
+java
+spark
+zeppelin
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">uniq</h2>
+<p>
+<code>uniq</code> will read the input file (or stdin) and output only the unique lines. It is often used with <code>grep</code> and <code>sort</code> for better readability of logs.
+<pre><code>$ echo "zeppelin\nzeppelin\nspark\natom\natom atom\njava" | sort | uniq
+atom
+atom atom
+java
+spark
+zeppelin
+</code></pre>
+Note that in the above, "zeppelin" is printed only once but "atom atom" and "atom" are both printed since the lines are different.
+</p>
+
+
+<h2 class="border-bottom-h2">curl</h2>
+<p>
+<code>curl</code> lets you transfer data to or from a server using a supported internet protocol. There are a ton listed out in <code>man curl</code>, but the most typical protocols are HTTP, HTTPS, FTP, and SCP.
+</p>
+<p>
+One thing <code>curl</code> lets you do is identify which process, if any, is using a port on a host. In the example below I use localhost, which is for my local machine. Tip: the default IP address that localhost represents is <code>127.0.0.1</code>
+<pre><code>$ curl http://localhost:8000 -v</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">scp</h2>
+<code>scp</code> allows you to copy files/directories from one machine to another. The basic usage is
+<code>scp user@[host name]:[source path] [target path]</code>
+
+<h2 class="border-bottom-h2">ps</h2>
+<p>
+<code>ps</code> prints out the process status for many processes. There are a ton of arguments you can checkout with <code>man ps</code>, but the most common usage is <code>ps aux</code>, which displays running process information across users, and processes with or without "controlling terminals". Basically, it displays an expanded and comprehensive list of processes compared to running just <code>ps</code>.
+<pre><code>$ ps aux
+  USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+  root             29162   0.0  0.0  4286404   1060 s001  R+   11:13PM   0:00.00 ps aux
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">cut</h2>
+<p><code>cut</code> simply allows you to cut out specified characters from lines of a file. For basic usage, you can provide the delimiter <code>-d</code>, number of fields <code>-f</code>, and/or number of characters to print out <code>-c</code>.</p>
+<p>
+To demonstrate the usage of <code>-c</code> let's print out the characters 4 to 6 of <code>foo.txt</code> (where 1 is the first character of a line):
+<pre><code>$ cat foo.txt
+hello : there : general : kenobi
+A : surprise : to : be : sure : but : a : welcome : one    
+
+$ cut -c4-6 foo.txt
+lo 
+ su
+</code></pre>
+If you provide a range that is outside the actual range of any given line in the file, the command will not error out! For example <code>cut -c-5-500 foo.txt</code> (well outside the range of any line in the file), the command prints out the whole file.
+
+Note that we put 4-6 immediately after <code>-c</code>; we could have also separate them with a whitespace, either works.
+</p>
+
+<p>
+<code>-d</code> lets you specify the delimiter on which to cut the file lines. For example in <code>foo.txt</code> there's a ton of colons, so let's delimit on those
+<pre><code>$cut -d: foo.txt     
+usage: cut -b list [-n] [file ...]
+       cut -c list [file ...]
+       cut -f list [-s] [-d delim] [file ...]
+</code></pre>
+Oops - cut doesn't work with just <code>-d</code> and the file name! As the output suggests, we need to provide some more arguments, mainly because even though now we know what we want to delimit on, <code>cut</code> doesn't know what part of the file to include or excluded based on the delimiter. So, we can provide <code>-f</code> to specify the fields to print. <code>-f</code> has multiple uses. The first is that you can provide just a single number to print out the n-th field between the delimiters:
+<pre><code>$ cut -d: -f3 foo.txt
+ general 
+ to 
+</code></pre>
+Note that even the whitespace before and after "general" and "to" is returned.
+</p>
+
+<p>
+You could also use -f to specify ranges. For example 3-4 returns the 3rd and 4th instances of fields between the delimiters:
+<pre><code>$ cut -d: -f3-4 foo.txt
+ general : kenobi
+ to : be 
+</code></pre>
+</p>
+
+<p>
+To cover all fields up to the n-th instance, use <code>-n</code>. To cover all fields starting from the n-th instance, use <code>n-</code>:
+<pre><code>$ cut -d: -f3- foo.txt 
+ general : kenobi
+ to : be : sure : but : a : welcome : one
+
+ $ cut -d: -f-3 foo.txt
+ hello : there : general 
+ A : surprise : to 
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">find</h2>
+<p>
+<code>find</code> will find specified files or directories in the path you specify. 
+The basic usage is 
+<pre><code>$ find [path to search in] [arguments] "[query string for files/directories]"</code></pre>
+to search for file names. Remember, you can use <code>*</code> to match "any character(s)"
+<pre><code>
+$find ~/Documents -name "blah*"
+./blah.txt
+./blah2.txt
+</code></pre>
+
+Similarly, you can search for file types
+<pre><code>
+$find ~/Documents -iname "*.txt"
+./blah.txt
+./foo.txt
+./bar/test.txt
+</code></pre>
+Note that <code>-iname</code> is like <code>name</code> but case insensitive.
+</p>
+
+<p>
+The above will return all results that match the criteria no matter how many levels deep in the directory from the starting path. To specify the depth, you can use -depth [number].
+<pre><code>$ find ~/Documents -depth 4 -iname "*.txt"</code></pre>
+</p>
+
+<p>
+This returns only the results <u>at that depth</u>, not everything from depth 1 to [number]. You can use -maxdepth [number] to return everything from depth 1 to [number].
+<code><pre>$ find ~/Documents -maxdepth 4 -iname "*.txt"</code></pre>
+</p>
+
+<p>
+You can also use -print0 to print the pathname of the selected files, followed by an ASCII NUL character (code 0):
+<pre><code>$ find . -name "*.txt" -maxdepth 1 -print0 
+./foo.txt./blah2.txt./blah.txt./find_results.txt
+</code></pre>
+The above is outputted to stdout, but if you were to save the contents to a file you would see
+<img class="centered-img" src="/images/find_results.jpg" alt="find -print0 in vim">
+</p>
+
+<p>
+The above is just some simple examples; <code>find</code> is extremely powerful and has a ton of arguments that can make your searches very advanced. Go check them out with man find.
+</p>
+
+<h2 class="border-bottom-h2">Recursive search in a directory</h2>
+<p>
+    Making use of what has been outlined above, we can combine <code>find</code> and <code>xargs</code> to find usage of a query string in multiple files at different depths of a directory, not just the current level.
+
+<pre><code>$ find . -name \*.txt -print0 | xargs -0 grep "test"
+./level2folder/bar.txt:test line 1
+./level2folder/bar2.txt:test line 2
+./level2folder/bar3.txt:test line 3
+</code></pre>
+The first half of the command is finding all the files - at all depths from the current directory - that match the extension <code>.txt</code> (note that we have to use the escape character version <code>\*</code>). The second half is passing that list of files to <code>grep</code> to search for "test". This is done with the help of <code>xargs</code> to provide <code>grep</code> the input, including the argument <code>-0</code> for telling <code>xargs</code> to expect <code>\0</code> as separators. The <code>-0</code> argument is used in tandem with -print0 from <code>find</code>.  
+</p>
+
+<h2 class="border-bottom-h2">vim</h2>
+<code>vim</code> is a program that allows you to view contents of a file and edit them; it is extremely powerful and has its own commands within the program itself. Besides the "need to knows" I cover in <a href="{{site.url}}/articles/command-line/command-line-usage">Part One</a>, some more basic yet useful commands within <code>vim</code> are:
+<table class="table">
+    <tbody>
+        <tr >
+            <td><code>i</code></td>
+            <td>enter insertion mode (you can modify the file as with a regular text editor)</td>
+        </tr>
+        <tr>
+            <td><code>x</code></td>
+            <td>delete the selected character</td>
+        </tr>
+        <tr>
+            <td><code>u</code></td>
+            <td>un-do the latest change</td>
+        </tr>
+        <tr>
+            <td><code>v</code></td>
+            <td>un-do the latest change</td>
+        </tr>
+        <tr>
+            <td><code>control + r</code></td>
+            <td>re-do an un-done change</td>
+        </tr>
+        <tr>
+            <td><code>yy</code></td>
+            <td>copy the line you're on (with the newline \n). See <a href="https://linuxize.com/post/how-to-copy-cut-paste-in-vim/#copying-yanking">this article</a> for a ton more useful options for copying and deleting</td>
+        </tr>
+        <tr>
+            <td><code>y$</code></td>
+            <td>copy characters from the cursor to the end of the line you're on</td>
+        </tr>
+        <tr>
+            <td><code>d + up arrow</code></td>
+            <td>delete the line you're on and the line above</td>
+        </tr>
+        <tr>
+            <td><code>d + down arrow</code> </td>
+            <td>delete the line you're on and the line above</td>
+        </tr>
+        <tr>
+            <td><code>dd</code></td>
+            <td>delete the line you're on</td>
+        </tr>
+        <tr>
+            <td><code>d$</code></td>
+            <td>delete characters from the cursor to the end of the line you're on</td>
+        </tr>
+        <tr>
+            <td><code>p</code></td>
+            <td>paste any copied text</td>
+        </tr>
+        <tr>
+            <td><code>v"*y</code></td>
+            <td>copy single character to clipboard</td>
+        </tr>
+        <tr>
+            <td><code>v</code> + [move cursor to select all wanted text] + <code>"*y</code></td>
+            <td>copy selected text to clipboard blah</td>
+        </tr>
+        <tr>
+            <td><code>shift + g</code></td>
+            <td>go to the end of the file</td>
+        </tr>
+        <tr>
+            <td><code>gg</code></td>
+            <td>go to the beginning of the file</td>
+        </tr>
+        <tr>
+            <td><code>:q</code></td>
+            <td>quit</td>
+        </tr>
+        <tr>
+            <td><code>:q!</code></td>
+            <td>forcefully quit</td>
+        </tr>
+        <tr>
+            <td><code>:wq</code></td>
+            <td>write and quit</td>
+        </tr>
+        <tr>
+            <td><code>:wq!</code></td>
+            <td>write and forcefully quit</td>
+        </tr>
+    </tbody>
+</table>
