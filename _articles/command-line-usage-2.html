@@ -181,13 +181,18 @@ General Kenobi
 When you use the argument <code>-s</code>, <code>ln</code> will make a "symbolic" link to the specified file. This is a reference to the location of the file. As with hard links, you can still take actions to edit the selected file through the symbolic link.
 <pre><code>$ cat /Users/daniloradovic/Documents/test.txt
 Hello there
+
 $ ln -s /Users/daniloradovic/Documents/test.txt my-symbolic-link
+
 $ cat my-hard-link
 Hello there
+
 $ echo "General Kenobi" >> my-symbolic-link
+
 $ cat my-hard-link
 Hello there
 General Kenobi
+
 $ cat /Users/daniloradovic/Documents/test.txt
 Hello there
 General Kenobi
@@ -202,8 +207,10 @@ lrwxr-xr-x   1 daniloradovic my-symbolic-link -> /Users/daniloradovic/Documents/
 <p>
 You can remove the link and the selected file is not deleted. However, if you remove the selected file, the symbolic link will point to nothing:
 <pre><code>$ rm /Users/daniloradovic/Documents/test.txt
+
 $ cat /Users/daniloradovic/Documents/test.txt
 cat: /Users/daniloradovic/Documents/test.txt: No such file or directory
+
 $ cat my-symbolic-link
 cat: my-symbolic-link: No such file or directory
 </code></pre>
