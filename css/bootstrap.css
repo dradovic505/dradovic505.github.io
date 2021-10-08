@@ -4400,6 +4400,10 @@
     font-family: serif, sans-serif;
     transition: .5s ease;
   }
+
+  .arg-list li{
+    margin-top: 0.6rem;
+  }
   
   .navbar-nav li a:hover {
     background-color: rgba(255, 255, 255, 0.1);

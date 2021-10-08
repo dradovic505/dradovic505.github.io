@@ -222,18 +222,27 @@ foo.txt
 <code>grep</code> allows you to search for strings within uncompressed file (of type .txt, .log, etc).
 <code>zgrep</code> is the same as <code>grep</code> but works for compressed files like the .gz file type
 <pre><code>$grep "error" ~/Documents/*</code></pre>
-some useful arguments are 
-<ul>
+some useful arguments are:
+<ul class="arg-list">
     <li><code>-i</code> makes the query case-insensitive</li>
     <li><code>-c</code> does a count of occurrences</li>
     <li><code>-C [number]</code> prints out [number] lines before and after each occurrence's line</li>
     <li><code>--color=always</code> colors the query so it is easier to spot it in the output</li>
+    <li><code>-m [num]</code> will print out just the first <code>num</code> lines containing the query</li>
+    <li><code>-h</code> will not print the file names in the output when you grep on more than one file</li>
+    <li><code>-r</code> will search all files under a directory - based on the pattern matching of the file names, so you can use <code>*</code> to search all files - with no depth limit</li>
+    <li><code>-o</code> will only return the matching portion of the line. So if you specify <code>foo*bar</code> then everything between foo and bar on a line (and including food and bar) will be returned</li>
 </ul>
 </p>
 
 <p>
- Note that printing to the standard output can be very inefficient and clunky; it also prevents easy further searches into the output and other manipulations of the data. So, often you can pair <code>grep</code>/<code>zgrep</code> with <code>></code> to print the output to a file as such
- <pre><code>$grep "error" ~/Documents/* > errors.txt</code></pre>
+Another useful argument is <code>-E</code> (or you can simply use <code>egrep</code>) which allows for extended regular expression matching. This allows for easy use of logical operators and pattern matching:<br>
+<code>grep -E "foo|bar" test.txt</code> will return lines that have either "foo" or "bar" and <code>grep -E "foo.*bar" test.txt</code> will return lines that have both "foo" and "bar".
+</p>
+
+<p>
+Note that printing to the standard output can be very inefficient and clunky; it also prevents easy further searches into the output and other manipulations of the data. So, often you can pair <code>grep</code>/<code>zgrep</code> with <code>></code> to print the output to a file as such
+<pre><code>$ grep "error" ~/Documents/* > errors.txt</code></pre>
 </p>
 
 <h2 class="border-bottom-h2">cp</h2>
@@ -300,7 +309,7 @@ The above is just some simple examples; <code>find</code> is extremely powerful 
   1       2      12 foo.txt
 </code></pre>
 representing lines, words, and characters in the file. The below are my most commonly used arguments:
-<ul>
+<ul class="arg-list">
 <li><code>-c</code> returns the number of bytes in the file</li>
 <li><code>-l</code> returns the length of the file</li>
 <li><code>-m</code> returns the number of characters</li>

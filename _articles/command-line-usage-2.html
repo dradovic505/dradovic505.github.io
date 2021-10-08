@@ -36,6 +36,27 @@ As an example, let's print the contents of a file to stdout then pipe the output
 </code></pre>
 </p>
 
+<h2 class="border-bottom-h2">pbcopy/pbpaste</h2>
+<p>
+These are Mac-only commands that simply allow you to copy and paste data to and from your clipboard:
+<pre><code>$ cat foo.txt 
+hello there:
+general kenobi
+
+$ cat foo.txt | pbcopy
+
+$ pbpaste
+hello there:
+general kenobi
+
+$ pbpaste | grep "hello" > bar.txt
+
+$ cat bar.txt
+hello : there : general : kenobi
+</code></pre>
+And since the data is in your clipboard, you can paste it to any other application as you would normally with <code>command + c</code>.
+</p>
+
 <h2 class="border-bottom-h2">xargs</h2>
 <p>
 <code>xargs</code> is used when trying to pipe like above, but command 2 cannot take the output of command 1 as input, say because it is not a flat array of inputs. So, <code>xargs</code> flattens the output from command 1 to a single line, which allows it to pass the results:
@@ -67,7 +88,7 @@ Hand in hand with piping, <code>xargs</code> allows you a lot more functionality
 
 <h2 class="border-bottom-h2">awk</h2>
 <p>
-<code>awk</code> is a powerful CLI tool that is used for searching files for queries, and can get quite complex due to being used very programmatically. For example, you can assign variable names as arguments and use those in your specified execution, such as printing. Given <code>awk</code>'s programatic nature, I highly recommend the <a href="https://www.tutorialspoint.com/awk/index.htm">full set of articles</a> that Tutorials Point takes to cover it! Here, I will just cover the general structure and usage I have personally used.
+<code>awk</code> is a powerful CLI tool that is used for searching files for queries, and can get quite complex due to being used very programmatically. For example, you can assign variable names as arguments and use those in your specified execution, such as printing. Given <code>awk</code>'s programatic nature, I highly recommend the <a href="https://www.tutorialspoint.com/awk/index.htm">full set of articles</a> that Tutorials Point takes to cover it! Here, I will just cover the general structure and an example that isn't particularly useful (because there is an easier way) but demonstrates some features of awk.
 </p>
 
 <p>
@@ -91,10 +112,19 @@ General
 </p>
 
 <p>
-The usage of <code>awk</code> I've found to use most commonly is:
+With awk you can implement operational logic such as and (<code>&&</code>), or (<code>||</code>), and not (<code>!</code>).
+<pre><code>$ awk '/error/ || /exception/ && !/fail/' some_log_file.txt
+</code></pre>
+</p>
+
+<p>
+The example of <code>awk</code> is:
 <pre><code>$ grep -c -i "query" *.txt | awk '{print substr($0,length)}' \
     | awk '{s+=$1} END {print s}'
 </code></pre>
+</p>
+
+<p>
 Overall, this will print out a single number representing the total occurrences of a query from all text files in the directory. Let's dive into each section:
 <pre><code>$ grep -c -i "e" *.txt
 blah.txt:1
@@ -131,9 +161,14 @@ Note that we could have also used <code>cut</code> here (introduced later in thi
 11
 </code></pre>
 </p>
-count numbers at the end of output lines with awk
 
-awk '{print $2}'
+<p>
+The final command at the end of the piping will increment variable <code>s</code> by the value of $1, which represents the second field of the line. After the lines have been read, <code>s</code> is printed.
+</p>
+
+<p>
+The command that is much more compact and simple that you could use for a use like the above is <code>grep -i "e" *.txt | wc -l</code>.
+</p>
 
 <h2 class="border-bottom-h2">ln</h2>
 <p><code>ln</code> makes links/references to a file or directories on your machine.</p>
@@ -221,6 +256,16 @@ The command and behavior of symbolic links for directories is the exact same as 
 <pre>
 <code>$ ln -s /Users/daniloradovic/Documents/testDir my-symbolic-directory-link</code>
 </pre>
+
+<h2 class="border-bottom-h2">head</h2>
+<p>
+<code>head -[num] [file]</code> will return only the first [num] of your file.
+<pre><code>$ head -3 bar.txt
+test line 1
+test line 2
+test line 3
+</code></pre>
+</p>
 
 <h2 class="border-bottom-h2">sed</h2>
 <p>
@@ -410,7 +455,7 @@ This returns only the results <u>at that depth</u>, not everything from depth 1 
 </p>
 
 <p>
-You can also use -print0 to print the pathname of the selected files, followed by an ASCII NUL character (code 0):
+You can also use <code>-print0</code> to print the pathname of the selected files, followed by an ASCII NUL character (code 0):
 <pre><code>$ find . -name "*.txt" -maxdepth 1 -print0 
 ./foo.txt./blah2.txt./blah.txt./find_results.txt
 </code></pre>
@@ -424,14 +469,19 @@ The above is just some simple examples; <code>find</code> is extremely powerful 
 
 <h2 class="border-bottom-h2">Recursive search in a directory</h2>
 <p>
-    Making use of what has been outlined above, we can combine <code>find</code> and <code>xargs</code> to find usage of a query string in multiple files at different depths of a directory, not just the current level.
+The easiest way of doing this is simply using grep and the <code>-r</code> flag to recursively search a directory at all levels.
+<pre><code>$ grep -r "test" *</code></pre>
+</p>
+
+<p>
+However, for the sake of making use of multiple commands, we can combine <code>find</code> and <code>xargs</code> to find usage of a query string in multiple files at all depths of a directory.
 
 <pre><code>$ find . -name \*.txt -print0 | xargs -0 grep "test"
 ./level2folder/bar.txt:test line 1
 ./level2folder/bar2.txt:test line 2
 ./level2folder/bar3.txt:test line 3
 </code></pre>
-The first half of the command is finding all the files - at all depths from the current directory - that match the extension <code>.txt</code> (note that we have to use the escape character version <code>\*</code>). The second half is passing that list of files to <code>grep</code> to search for "test". This is done with the help of <code>xargs</code> to provide <code>grep</code> the input, including the argument <code>-0</code> for telling <code>xargs</code> to expect <code>\0</code> as separators. The <code>-0</code> argument is used in tandem with -print0 from <code>find</code>.  
+The first half of the command is finding all the files - at all depths from the current directory - that match the extension <code>.txt</code> (note that we have to use the escape character version <code>\*</code>). The second half is passing that list of files to <code>grep</code> to search for "test". This is done with the help of <code>xargs</code> to provide <code>grep</code> the input, including the argument <code>-0</code> for telling <code>xargs</code> to expect <code>\0</code> as separators. The <code>-0</code> argument is used in tandem with <code>-print0</code> from <code>find</code>.  
 </p>
 
 <h2 class="border-bottom-h2">vim</h2>
