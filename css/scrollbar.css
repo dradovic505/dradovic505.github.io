@@ -1,0 +1,27 @@
+::-webkit-scrollbar {
+    width: .85em;
+    height: .5em;
+  }
+  
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(200 60% 62% / 1);
+    border: .13em solid #f1f1f1;
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(200 60% 45% / 1);
+}
+
+/* firefox */
+@supports (scrollbar-color: hsl(200 60% 62% / 1) #f1f1f1) {
+    * {
+        scrollbar-color: hsl(200 60% 62% / 1) #f1f1f1;
+        scrollbar-width: auto;
+    }
+}
