@@ -5,11 +5,70 @@ date_str:  "October 06, 2021"
 date_num: 20211006
 categories: "command-line"
 group: "Programming"
-summary: "A quick way to make the most use of your computer's command line/terminal"
+summary: "More in depth useful commands to use in your CLI"
 ---
 
 <p class="p-indent">
     Welcome - in this article I'll continue detailing some command line tools that I use frequently or can often be of use to any general developer. I suggest reading through <a href="{{site.url}}/articles/command-line/command-line-usage/">Part One</a> for some of the more basic commands.
+</p>
+
+<h2 class="border-bottom-h2">which</h2>
+<p>
+This command handily allows you to see where a program is sourced. For example, to see where my Java executable is located:
+<pre><code>$ which java
+/usr/bin/java
+</code></pre>
+Note that this is an executable program, not a folder.
+</p>
+
+<h2 class="border-bottom-h2">Environment variables</h2>
+<p>
+In my Part 1 article, I mentioned you can run <code>echo $SHELL</code> to find out if you are using bash, zsh, or another shell. But where is the computer storing this variable? How can you see what other variables there are that can be both useful to you or to change the value?
+</p>
+
+<p>
+Values like $SHELL are called environment variables. All environment variables can be found by running
+<pre><code>$ export
+</code></pre>
+You'll get a list of the variables such as <code>HOME=/Users/daniloradovic</code>, <code>PWD=/Users/daniloradovic/Desktop</code>, <code>TERM_SESSION_ID=******</code>, etc. 
+</p>
+
+<p>
+A fun one is <code>PS1=</code> which is your terminal prompt (in my articles I use <code>$</code>). The default is often something like the working directory, but you can change it by exporting PS1 in your shell profile; follow this <a href="https://osxdaily.com/2006/12/11/how-to-customize-your-terminal-prompt/">quick tutorial</a> for more details.
+</p>
+
+<p>
+In general, to change the value of an environment variable you can use the <code>export</code> command. For a temporary mapping you can run the command directly in terminal, otherwise you can add it to your shell profile. The general usage is
+<pre><code>$ export [var name]=[value]
+</code></pre>
+</p>
+
+<h2 class="border-bottom-h2">PATH environment variable</h2>
+<p>
+One environment variable you will have to deal with from time to time is <code>$PATH</code>. You can see it in the <code>export</code> list or by running <code>echo $PATH</code>. <code>$PATH</code> defines where your machine will check for your executable programs when you invoke the command to run them; each location is separated by <code>:</code>
+</p>
+
+<p>
+For example, one of my paths is <code>/usr/bin</code>. Enter the directory on your own machine and you'll see a bunch of programs, including <code>which</code>, which we covered above. If a program you wish to execute is not in one of the paths listed, then you will not be able to invoke it by just calling the program name. Instead you would have to specify the path each time, which is annoying.
+</p>
+
+<p>
+To append another path to <code>$PATH</code>, you can run <code>export</code> and 
+<pre><code>$ export PATH=$PATH:/path/newprogram
+</code></pre>
+clearly invoking the <code>$PATH</code> variable and appending after the colon.
+</p>
+
+<p>
+And to prepend simply run
+<pre><code>$ export PATH=/path/newprogram:$PATH
+</code></pre>
+</p>
+
+<p>
+To add the new path to the middle of <code>$PATH</code> you need to copy the entire old value of <code>$PATH</code> into a text editor, manually insert the new path, then paste the entire new list of paths then run
+<pre><code>$ export PATH=[full list of path]
+</code></pre>
 </p>
 
 <h2 class="border-bottom-h2">Identify the process using a port</h2>

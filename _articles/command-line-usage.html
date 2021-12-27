@@ -52,7 +52,7 @@ This is called the shell. You can think of it as a program that runs your progra
 
 <h2 class="border-bottom-h2">Storing commonly used commands</h2>
 Some commands you may use very often and its a pain to keep writing them out. For example if you use git version control for and use <code>git pull origin mainline --rebase</code>. Well, to make life easier you can give the command an alias and invoke the alias instead of the full command - for the aforementioned command you could use an alias like <code>grm</code>.
-First, identify which shell your machine is using. Run <code>echo $0</code> - it will likely return "bash" or "zsh".
+First, identify which shell your machine is using. Run <code>echo $0</code> - it will likely return "bash" or "zsh". You can also run <code>echo $SHELL</code>.
 If bash, add the following to the file <code>~/.bashrc</code>. If zsh, add to <code>~/.zshrc</code>
 <pre><code>
 alias gs="git status"

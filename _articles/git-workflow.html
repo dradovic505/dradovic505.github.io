@@ -97,10 +97,13 @@ running <code>git revert abc</code> will result in
 <p>
 You can then add, commit, and push the reversal. This is great if you are need to reverse a commit that has a ton of files; you're not going to look at the git diff and make the changes file by file and line by line. git revert does it for you!
 </p>
-<p>Now, if you actually do need to roll back/reset to a commit and *permanently delete all commits after the chosen commit* you can run
+<p>Now, if you actually do need to roll back/reset to a commit and *permanently delete all commits after the chosen commit* you can run the below (For a lot of more options, refer to <a href="https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit">this stack overflow post</a>)
 <pre><code>git reset --hard [commit id to reset to]</code></pre>
 And to reset to a commit but not permanently delete all newer commits, you run 
 <pre><code>git checkout [commit id]</code></pre>
-For a lot of more options, refer to <a href="https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit">this stack overflow post</a>
 </p>
 
+<p>
+To bring to HEAD a revision of only a single file from an old commit, run the below. Note that this will overwrite any changes you may have in an uncommitted file of the same path and name combination.
+<pre><code>git checkout [commit id] -- path/to/file.txt</code></pre>
+</p>
