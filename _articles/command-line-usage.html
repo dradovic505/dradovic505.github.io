@@ -51,18 +51,14 @@ Your operating system has folders, also known as directories. On MacOS and Linux
 This is called the shell. You can think of it as a program that runs your programs. You are entering commands to the shell as input and it can output results to the standard output (stdout) which is what you see outputted to the screen.</p>
 
 <h2 class="border-bottom-h2">Storing commonly used commands</h2>
+<p>
 Some commands you may use very often and its a pain to keep writing them out. For example if you use git version control for and use <code>git pull origin mainline --rebase</code>. Well, to make life easier you can give the command an alias and invoke the alias instead of the full command - for the aforementioned command you could use an alias like <code>grm</code>.
+</p>
+
+<p>
 First, identify which shell your machine is using. Run <code>echo $0</code> - it will likely return "bash" or "zsh". You can also run <code>echo $SHELL</code>.
-If bash, add the following to the file <code>~/.bashrc</code>. If zsh, add to <code>~/.zshrc</code>
-<pre><code>
-alias gs="git status"
-alias grm="git pull origin mainline --rebase"
-alias gdn="git diff --name-only"
-alias cdd="cd ../.."
-alias cl="cd ..; ls"
-alias gla="git log --all --graph --decorate"
-alias glo="git log --oneline"
-</code></pre>
+If bash, you add the aliases and exports to <code>~/.bashrc</code>. If zsh, you add them to <code>~/.zshrc</code>. See my personal <code>~/.zshrc</code> setup <a href="{{site.url}}/articles/dev-setup/zshrc-setup/">here</a>!
+</p>
 
 <p>
 Run <code>source ~/.bashrc</code> or <code>source ~/.zshrc</code> and your aliases should now be useable.

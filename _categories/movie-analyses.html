@@ -6,6 +6,7 @@ title: "Movie Analyses"
 Enjoy all my movie analyses!
 
 <div class="row">
+    {% assign articles = site.articles | sort: 'date_num' | reverse %}
     {% for article in site.articles %}
         {% if article.group == "Movie analysis" %}
             <div class="col-md-12">

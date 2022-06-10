@@ -1,0 +1,51 @@
+---
+layout: default
+title: "My ~/.zshrc configuration"
+date_str:  "June 10, 2022"
+date_num: 20220610
+categories: "dev-setup"
+group: "Programming"
+summary: "Some basic frequently used commands that I configured"
+---
+
+<p>
+Here's the contents of my <code>~/.zshrc</code> file. Sometimes I add more depending on my use case but these are the basics!
+</p>
+
+<ul>
+    <li>The first two are for easier access to <code>.zshrc</code> and sourcing it. It can get a bit annoying to type out each time.</li>
+    <li>Then there's basic commands to navigate the folder structure and git commands.</li>
+    <li><code>jlaunch</code> is for launching <a href="https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/">Jekyll</a>, which is a template framework which I use for this website. The command wipes the existing "build" from the directory and starts up a local server on <code>http://127.0.0.1:4000</code>.</li>
+    <li><a href="https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/">venv</a> is a very useful program that allows a directory to have its own Python setup. You can set the version and which packages to install. No other folder will be affected!</li>
+    <li>I also customized my terminal prompt to be an emote since it's shorter :)</li>
+    <li>Finally, I append Ruby paths to the <code>PATH</code> environment variable.</li>
+</ul>
+
+
+<h2 class="border-bottom-h2">Contents</h2>
+<p>
+<pre><code>
+alias vimp="vim ~/.zshrc"
+alias sourcep="source ~/.zshrc"
+
+alias cdd="cd ../.."
+alias cl="cd ..; ls"
+
+alias gla="git log --all --graph --decorate"
+alias gs="git status"
+alias glo="git log --oneline"
+alias gdn="git diff --name-only"
+alias grm="git pull origin mainline --rebase"
+alias gca="git commit --amend"
+alias gb="git branch"
+alias gds="git diff --stat"
+
+alias jlaunch="rm -rf _site && bundle exec jekyll serve"
+
+alias venvinstall="python3 -m venv env; env/bin/python -m pip install --upgrade pip setuptools wheel"
+alias venvactivate="source env/bin/activate"
+
+export PS1="🌊 "
+export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
+</code></pre>
+</p>

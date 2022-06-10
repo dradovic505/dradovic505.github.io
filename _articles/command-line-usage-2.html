@@ -562,6 +562,30 @@ The first half of the command is finding all the files - at all depths from the 
             <td>re-do an un-done change</td>
         </tr>
         <tr>
+            <td><code>0</code></td>
+            <td>go to the beginning of the current line</td>
+        </tr>
+        <tr>
+            <td><code>$</code></td>
+            <td>go to the end of the current line</td>
+        </tr>
+        <tr>
+            <td><code>w</code></td>
+            <td>go to start of the next word (word = alphanumeric string uninterrupted by whitespace, <code>/</code>, <code>;</code>, etc)</td>
+        </tr>
+        <tr>
+            <td><code>n</code></td>
+            <td>go to end of the previous word (same word definition as above)</td>
+        </tr>
+        <tr>
+            <td><code>W</code></td>
+            <td>go to start of the next word (word = string uninterrupted by whitespace)</td>
+        </tr>
+        <tr>
+            <td><code>B</code></td>
+            <td>go to end of the previous word (same word definition as above)</td>
+        </tr>
+        <tr>
             <td><code>yy</code></td>
             <td>copy the line you're on (with the newline \n). See <a href="https://linuxize.com/post/how-to-copy-cut-paste-in-vim/#copying-yanking">this article</a> for a ton more useful options for copying and deleting</td>
         </tr>
@@ -627,3 +651,7 @@ The first half of the command is finding all the files - at all depths from the 
         </tr>
     </tbody>
 </table>
+
+<p>
+    https://vim.rtorr.com/ contains a full guide, but the above is what I personally use.
+</p>
