@@ -1,0 +1,20 @@
+---
+layout: default
+title: "Physical endeavors"
+---
+
+<div class="row">
+    {% for article in site.articles %}
+        {% if article.group == "Physical Endeavors" %}
+            <div class="col-md-12">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-130 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3><a class="mb-0 card-title btn-link" href="{{article.url}}">{{article.title}}</a></h3>
+                    
+                    <p class="card-text">{{article.summary}}</p>
+                </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+  </div>
