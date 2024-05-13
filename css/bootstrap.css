@@ -46,6 +46,7 @@
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    height: 100%;
   }
   
   article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -62,6 +63,7 @@
     text-align: left;
     background-color: #fff;
     padding-top: 70px;
+    height: 100%;
   }
   
   [tabindex="-1"]:focus:not(:focus-visible) {
@@ -588,6 +590,10 @@
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: 100%;
   }
   
   @media (min-width: 576px) {
@@ -4882,11 +4888,15 @@
    * Footer
    */
   .blog-footer {
-    padding: 2.5rem 0;
+    padding: 0.8rem 0;
     color: #999;
     text-align: center;
     background-color: #f9f9f9;
     border-top: .05rem solid #e5e5e5;
+    margin-top: auto;
+  }
+  .blog-footer p {
+    margin: 0.3rem;
   }
   .blog-footer p:last-child {
     margin-bottom: 0;
