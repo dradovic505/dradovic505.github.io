@@ -6,7 +6,8 @@ title: "Album Analyses"
 Enjoy all my album analyses!
 
 <div class="row">
-    {% for article in site.articles %}
+    {% assign articles = site.articles | sort: 'date_num' | reverse %}
+    {% for article in articles %}
         {% if article.group == "Album analysis" %}
             <div class="col-md-12">
                 <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-130 position-relative">

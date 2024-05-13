@@ -11,7 +11,7 @@ layout: default
         <div class="col p-4 d-flex flex-column position-static">
           <div class="d-inline-flex">
             <strong class="mb-2 text-primary">{{article.group}}</strong>
-            {% if {{article.date_str}} != "" %}
+            {% if article.date_str != "" %}
               <div class="text-slash">/</div>
               <div class="mb-1 text-muted">{{article.date_str}}</div>
             {% endif %}

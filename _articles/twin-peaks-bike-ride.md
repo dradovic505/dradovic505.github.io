@@ -3,7 +3,7 @@ layout: default
 title: "Twin Peaks Bike Ride: Mt. Diablo and Mt. Tam"
 date_str:  "April 27, 2024"
 date_num: 20240427
-categories: "exercise"
+categories: "physical_endeavors"
 group: "Physical Endeavors"
 summary: "123 miles. Nearly 10,000 feet of elevation. 12 hours."
 ---
@@ -18,8 +18,7 @@ And so we began our adventure a second time, riding for about 15 miles on flat a
 
 Now that I was outputting a normal wattage of energy to move make acceptable forward progress, I felt great and excited again. Doubt subsided and we made extremely consistent progress up the mountain. The view on the way up was gorgeous. The mountain, at least on the road we biked up, was super exposed with very little green overhead, which made it a bit warmer than preferable but allowed us to see the beautiful, green rolling hills of the East Bay completely unobstructed.
 
-
-![Mount Diablo]({{site.url}}/images/mt-diablo.JPG)
+<img class="article-img" src="https://dradovic505.github.io/images/mt-diablo.JPG" alt="Mount Diablo">
 
 Some time after 3000 feet of elevation, maybe about a mile or two away from the peak, I felt like I was dying. This time it wasn't because of my legs, but because when I drank water from my squeeze bottle I inhaled at the same time... I coughed my intestines out, my throat was dying, and my nose felt spicy and became runny. I couldn't talk properly for the entire rest of the ride up Diablo - something about the water messed with my voice box. Luckily it didn't affect my lungs much so I was able to breathe properly, but man did it make me feel like death. It wasn't the biggest issue in the world and it wouldn't have stopped me from completing the ride even if it persisted, but it was the third incidence in a string of experiences that very slowly chipped away at my mental but would over time add up.
 
@@ -55,9 +54,9 @@ We continued on some more uphills, still locked in and moving consistently. We r
 
 At around 1830, we got to the final climb. At this point my thighs were not only burning but were also getting exhausted to the point where no amount of Redbull chugged and no amount of sugar consumed could change the fact that the cells in my legs were feeling overworked. Sunset was only an hour away but we were in too deep. No fucking way we bail. So we continued. The climb to West Peak was genuinely brutal. It was reminiscent of the first leg of the trip with the bad seat configuration; I was putting in a lot of effort and not getting much forward movement out of it. My thighs *felt* like they were nearing their true physical limit. At least, that's what my legs were telling me. But as I knew from watching and analyzing *Whiplash* in [this article]({{site.url}}/articles/movie_analysis/whiplash-analysis), this was a perceived limit, not my true physical limit. 
 
-We made it to the West Peak, but I felt no sense of accomplishment, fulfillment, or finality. I knew that wasn't our stopping point. There was one more brief downhill and then the final however many meter climb uphill to the East Peak summit. At this point I felt 99% depleted of thigh power; it felt as if I had to climb for another 50 meters of such a steep incline I would have fallen sideways off my bike. But I didn't. Instead, we summited. It was truly one of the most exhilarating feelings I've ever experienced. I was so unbelievably proud. I felt like the king of the world. It was surreal that we summited two mountains in one day, with only minutes to spare until sunset. No other physical or mental endeavor has ever given me such a high. Nothing I did in cross country and nothing I've biked before. There's something different about the journey taking so long and about there being two peaks involved. Just one peak with the same distance and elevation would feel great but I'm not sure it would have the same effect. With two mountains you finish the first and know you haven't even scratched the surface. After the firs,t you have to go back down and start from zero. 
+We made it to the West Peak, but I felt no sense of accomplishment, fulfillment, or finality. I knew that wasn't our stopping point. There was one more brief downhill and then the final however many meter climb uphill to the East Peak summit. At this point I felt 99% depleted of thigh power; it felt as if I had to climb for another 50 meters of such a steep incline I would have fallen sideways off my bike. But I didn't. Instead, we summited. It was truly one of the most exhilarating feelings I've ever experienced. I was so unbelievably proud. I felt like the king of the world. It was surreal that we summited two mountains in one day, with only minutes to spare until sunset. No other physical or mental endeavor has ever given me such a high. Nothing I did in cross country and nothing I've biked before. There's something different about the journey taking so long and about there being two peaks involved. Just one peak with the same distance and elevation would feel great but I'm not sure it would have the same effect. With two mountains you finish the first and know you haven't even scratched the surface. After the first, you have to go back down and start from zero. 
 
-![Mount Tam]({{site.url}}/images/mt-tam.JPG)
+<img class="article-img" src="https://dradovic505.github.io/images/mt-tam.JPG" alt="Mount Tam">
 
 I also felt a wave of relief that we did not use so many different little things that nagged at us throughout the ride as excuses to bypass Tam and re-route directly back to San Francisco. If we had, we still would have completed over 50 miles, I would have hit my distance PR, and we would have both experienced Diablo for the first time. But because we set such a lofty goal that by some standards was highly improbable given the lack of preparation in regards to gear and navigation, actually hitting it gave me a feeling of true bliss.
 
