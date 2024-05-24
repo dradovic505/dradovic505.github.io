@@ -96,6 +96,31 @@
     -webkit-text-decoration-skip-ink: none;
     text-decoration-skip-ink: none;
   }
+
+  .dropdown {
+    button {
+      /* border: none; */
+      /* border-bottom: 0.2rem solid black; */
+      /* border-bottom: 4px solid #2a6daf; */
+      background-color: white;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-radius: 10px;
+    }
+  }
+
+  .no-bottom-margin {
+    margin-bottom: 0px;
+  }
+  
+  /* button:focus {
+    outline: 1px dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+  } */
+  .hide {
+    display: none;
+  }
   
   address {
     margin-bottom: 1rem;
