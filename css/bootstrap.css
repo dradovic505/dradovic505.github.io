@@ -99,14 +99,16 @@
 
   .dropdown {
     button {
-      /* border: none; */
-      /* border-bottom: 0.2rem solid black; */
-      /* border-bottom: 4px solid #2a6daf; */
       background-color: white;
       border-top: none;
       border-left: none;
       border-right: none;
-      border-radius: 10px;
+      border-radius: 7px;
+      margin: 0.3rem;
+    }
+
+    button:hover {
+      background-color: #92D7D9;
     }
   }
 
