@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "<i>C,XOXO</i> by Camila Cabello"
+browser-tab-title: "C,XOXO by Camila Cabello"
 date_str:  "July 1, 2024"
 date_num: 20240701
 categories: album_analysis
